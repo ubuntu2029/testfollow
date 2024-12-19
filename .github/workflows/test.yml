@@ -26,3 +26,23 @@ jobs:
             txt2man liblzma-dev libssl-dev libz-dev mercurial \
             wget tar gcc-10 g++-10 cmake zstd ninja-build lz4 \
             liblz4-tool liblz4-dev lzma --fix-broken --fix-missing
+      - name: Set build date
+        id: get-date
+        run: |
+          sudo timedatectl set-timezone Asia/Jakarta
+          echo ::set-output name=date::$(/bin/date -u "+%Y%m%d")
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.CACHE_DIR }}
+          key: ${{ runner.os }}-kernel-${{ hashFiles('**/lockfiles') }}
+
+      - name: Build & Push
+        run: |
+          git config --global user.name "${GITHUB_USER}"
+          git config --global user.email "${GITHUB_EMAIL}"
+          source env.sh
+          echo "Cloning kernel"
+          git clone --depth=1 $KERNEL_REPO -b $KERNEL_BRANCH kernel && cd kernel
+          mv /home/runner/work/lazy-kernel-build/lazy-kernel-build/build.sh /home/runner/work/lazy-kernel-build/lazy-kernel-build/kernel
+          source build.sh
