@@ -42,6 +42,6 @@ jobs:
           git config --global user.name "thomas"
           git config --global user.email "thomas@alpenglow.com.cn"
           echo "Cloning kernel"
-          git clone --depth=1 $KERNEL_REPO -b lineage-21 kernel && cd kernel
+          git clone --depth=1 https://github.com/OnePlus12R-development/android_kernel_oneplus_sm8550.git -b lineage-21 kernel && cd kernel
           mv /home/runner/work/lazy-kernel-build/lazy-kernel-build/build.sh /home/runner/work/lazy-kernel-build/lazy-kernel-build/kernel
           source build.sh
