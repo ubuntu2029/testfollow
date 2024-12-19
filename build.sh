@@ -335,7 +335,7 @@ build_kernel() {
 	fi
 
 	msg "|| Started Compilation ||"
-	make O=out $DEFCONFIG
+	make O=out defconfig#$DEFCONFIG
 	if [ $DEF_REG = 1 ]
 	then
 		cp .config arch/arm64/configs/$DEFCONFIG
